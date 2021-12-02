@@ -10,7 +10,7 @@ import math, operator
 
 #-----------------------------load the image and convert into gray scale -----------------------------#
 def load():
-    img = cv2.imread('F:\\Sadaru Kavisha\\Semester 5\\Image Processing\\images\\1.jpg',0)
+    img = cv2.imread('1.jpg',0)
     return img
 
 #-------------------------------------------------------------------------------------------------------#
@@ -264,10 +264,10 @@ def Huffman_Encoding(data):
         nodes.append(newNode)
             
     huffman_encoding = Calculate_Codes(nodes[0])
-    print("symbols with codes", huffman_encoding)
+    #print("symbols with codes", huffman_encoding)
 
     encoded_output = Output_Encoded(data,huffman_encoding)
-    return encoded_output, nodes[0]  
+    return encoded_output, huffman_encoding ,nodes[0]
 #-------------------------------------------------------------------------------------------------#   
 
 
@@ -294,7 +294,13 @@ def Huffman_Decoding(encoded_data, huffman_tree):
     return decoded_output        
 
 #-----------------------------------------------------------------------------------------
-
+#-------------------Write The Haffman tree ------------------------------------------------#
+def writeTree(data):
+    file1 = open("haffmanTree.txt", "w") 
+    file1.write(str(data))
+    file1.close() 
+    return
+#-------------------------------------------------------------------------------------------------#
 
 #-------------------Write encoded data into a file------------------------------------------------#
 def writeEncoded(data):
@@ -307,10 +313,15 @@ def writeEncoded(data):
 
 #------------------Read encoded data---------------------------------------------------#
 def readEncoded():
-    f = open("encoded.txt", "r")
-    encodedImg=f.read()
-    print(encodedImg)
-    return
+    try:
+        f = open("encoded.txt", "r")
+        encodedImg=f.read()
+
+        print(encodedImg)
+    except:
+        print("    ")
+        print("First go to process 1 and encode ")
+    return 
 
 
 
@@ -322,27 +333,110 @@ def display_180321j(output):
     cv2.destroyAllWindows()
 
 
+def process():
+    print("Processing the image...")
+    gray=load()
+    arr=computeHistogram(gray)
+    aftermedian=median_filter(gray,3)
+    aftersharp=sharp(aftermedian)
+    gray2=load()
+    print("  ")
+    print("press 0  to show the loaded image")
+    print("press 1 to show the Original image histogram")
+    print("press 2 to show the image after median filtering")
+    print("press 3 to show the hostogram after median filtering")
+    print("press 4 to show the image after sharpening")
+    print("press 5 to show histogram after sharpening")
+    print("press 6 to display the image entropy")
+    print("press 7 to encode the image and save to a text file")
+    print("press 8 to show the RMS Error")
+
+    print("Press any key to go back")
+    print("Close newly opening windows to continue")
+    print("  ")
+    x=input("Enter the number:  ")
+    if (x=='0'):
+        display_180321j(gray2)
+        process()
+    if (x=='1'):
+        showHistogram(gray2)
+        process()
+    elif (x=='2'):
+        
+        display_180321j(aftermedian)
+        process()
+    elif(x=='3'):
+        showHistogram(aftermedian)
+        process()
+    elif(x=='4'):
+        display_180321j(aftersharp)
+        process()
+    elif(x=='5'):
+        showHistogram(aftersharp)
+        process()
+    elif(x=='6'):
+        print("Entropy is "+str(computeEntropy(arr,gray)))
+        process()
+    elif(x=='7'):
+        encodedImage,Tree,nodes=Huffman_Encoding(gray)
+        writeEncoded(encodedImage)
+        writeTree(Tree)
+        process()
+    elif(x=='8'):
+        print("RMS different is "+str(rmsdiff(gray2,aftermedian)))
+    else:
+        return
+    
+
+
+
+
+def precess2():
+    readEncoded()
+    return
+
 
 def main_180321j():
-    
-    gray=load()
-    
-    
-    arr=computeHistogram(gray)
+    print("--------------------------------------------------------------")
+    print("Press 0 to Start the process ->")
+    print("press 1 to load and show the encoded file ->")
+    print("press any key to exit")
+    print("   ")
+    x=input("Enter the number:  ")
+    if (x=='0'):
+        process()
+        main_180321j()
+    elif (x=='1'):
+        precess2()
+        main_180321j()
+    else:
+        return
 
-    print("Entropy is "+str(computeEntropy(arr,gray)))
-    aftermedian=median_filter(gray,3)
-    newGray=load()
-    print("RMS different is "+str(rmsdiff(newGray,aftermedian)))
-    probDic=computeProbabilities(arr,gray)
-    encodedImage,Tree=Huffman_Encoding(gray)
-    print(Huffman_Decoding(encodedImage,Tree))
-    writeEncoded(encodedImage)
-    showHistogram(aftermedian)
-    display_180321j(newGray)
-    display_180321j(aftermedian)
-    aftersharp=sharp(aftermedian)
-    display_180321j(aftersharp)
+
+
+
+
+
+
+    #gray=load()
+    
+    
+    #arr=computeHistogram(gray)
+
+    #print("Entropy is "+str(computeEntropy(arr,gray)))
+    #aftermedian=median_filter(gray,3)
+    #newGray=load()
+    #print("RMS different is "+str(rmsdiff(newGray,aftermedian)))
+    #probDic=computeProbabilities(arr,gray)
+    #encodedImage,Tree=Huffman_Encoding(gray)
+
+    #writeEncoded(encodedImage)
+    #print(Huffman_Decoding(encodedImage,Tree))
+    #showHistogram(aftermedian)
+    #display_180321j(newGray)
+    #display_180321j(aftermedian)
+    #aftersharp=sharp(aftermedian)
+    #display_180321j(aftersharp)
     return
 
 main_180321j()
