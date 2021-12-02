@@ -387,6 +387,7 @@ def process():
         process()
     elif(x=='8'):
         print("RMS different is "+str(rmsdiff(gray2,aftermedian)))
+        process()
     else:
         return
 #-----------------------------------------------------------------------# 
