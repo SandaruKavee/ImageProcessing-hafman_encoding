@@ -325,14 +325,17 @@ def readEncoded():
 
 
 
-
+#---------display images ---------------------------#
 def display_180321j(output):
     
     cv2.imshow("Output_180321J",output)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+#-------------------------------------------------------#
 
 
+
+#--------------------image processing process---------------------#
 def process():
     print("Processing the image...")
     gray=load()
@@ -386,11 +389,11 @@ def process():
         print("RMS different is "+str(rmsdiff(gray2,aftermedian)))
     else:
         return
-    
+#-----------------------------------------------------------------------# 
 
 
 
-
+#second process for the displaying the encoded file
 def precess2():
     readEncoded()
     return
@@ -413,38 +416,7 @@ def main_180321j():
         return
 
 
-
-
-
-
-
-    #gray=load()
-    
-    
-    #arr=computeHistogram(gray)
-
-    #print("Entropy is "+str(computeEntropy(arr,gray)))
-    #aftermedian=median_filter(gray,3)
-    #newGray=load()
-    #print("RMS different is "+str(rmsdiff(newGray,aftermedian)))
-    #probDic=computeProbabilities(arr,gray)
-    #encodedImage,Tree=Huffman_Encoding(gray)
-
-    #writeEncoded(encodedImage)
-    #print(Huffman_Decoding(encodedImage,Tree))
-    #showHistogram(aftermedian)
-    #display_180321j(newGray)
-    #display_180321j(aftermedian)
-    #aftersharp=sharp(aftermedian)
-    #display_180321j(aftersharp)
     return
 
 main_180321j()
 
-#while True:
-#    x=input("Enter the number")
- #   print(x)
-  #  if (x=='0'):
-     #   break
- 
-        
