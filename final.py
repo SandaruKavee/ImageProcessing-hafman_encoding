@@ -291,19 +291,25 @@ def Huffman_Decoding(encoded_data, huffman_tree):
             huffman_tree = tree_head
         
     string = ''.join([str(item) for item in decoded_output])
-    return string        
+    return decoded_output        
 
 #-----------------------------------------------------------------------------------------
 
 
 #-------------------Write encoded data into a file------------------------------------------------#
 def writeEncoded(data):
+    file1 = open("encoded.txt", "w") 
+    file1.write(data)
+    file1.close() 
     return
 #-------------------------------------------------------------------------------------------------#
 
 
 #------------------Read encoded data---------------------------------------------------#
 def readEncoded():
+    f = open("encoded.txt", "r")
+    encodedImg=f.read()
+    print(encodedImg)
     return
 
 
@@ -330,7 +336,8 @@ def main_180321j():
     print("RMS different is "+str(rmsdiff(newGray,aftermedian)))
     probDic=computeProbabilities(arr,gray)
     encodedImage,Tree=Huffman_Encoding(gray)
-    print(encodedImage)
+    print(Huffman_Decoding(encodedImage,Tree))
+    writeEncoded(encodedImage)
     showHistogram(aftermedian)
     display_180321j(newGray)
     display_180321j(aftermedian)
